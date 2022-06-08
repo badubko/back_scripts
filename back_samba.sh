@@ -126,11 +126,11 @@ FILE_NAME_REP_DETALL="${SUB_DIR_DETALL_DATE}/""$(date  +%Y-%m-%d_%H%M)""_Rep_det
 # Escribir log de comienzo
 
 # Inicializar archivo de detalle
-printf "          Comienzo Detalle: %s  Generado por:  %s %s \n" 	"${START_TIME}"  ${0} ${1} >${FILE_NAME_REP_DETALL}
+printf "          Comienzo Detalle: %s  Generado por:  %s %s Version: %s\n" 	"${START_TIME}"  ${0} ${1} ${VERSION}>${FILE_NAME_REP_DETALL}
 printf "          File reducido  : %s \n" 	"${FILE_NAME_REP_REDUC_DIA}" 							>>${FILE_NAME_REP_DETALL}
 
 # Inicializar archivo reducido
-printf "          Comienzo: %s  Generado por: %s %s \n" 	"${START_TIME}"  ${0} ${1}  >> "${FILE_NAME_REP_REDUC_DIA}"
+printf "          Comienzo: %s  Generado por: %s %s Version: %s\n" 	"${START_TIME}"  ${0} ${1} ${VERSION}  >> "${FILE_NAME_REP_REDUC_DIA}"
 
 printf "          Archivo detalle: %s \n" 	"${FILE_NAME_REP_DETALL}" 				 >>${FILE_NAME_REP_REDUC_DIA}
 
