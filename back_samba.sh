@@ -150,8 +150,10 @@ END_TIME="$(date  +%Y-%m-%d_%H\:%M\:%S)"
 if [ $? -eq 0 ]
 then
    printf "          Finalizado OK: %s  \n\n" 	"${END_TIME}"  >> "${FILE_NAME_REP_REDUC_DIA}"
+   printf "          Finalizado OK: %s  \n\n" 	"${END_TIME}"  >> "${FILE_NAME_REP_DETALL}"
 else
-    printf "         Finalizado con error: %s  %s \n\n" 	"${0}" "${END_TIME}"  >> "${FILE_NAME_REP_REDUC_DIA}"
+   printf "         Finalizado con error: %s  %s \n\n" 	"${0}" "${END_TIME}"  >> "${FILE_NAME_REP_REDUC_DIA}"
+   printf "         Finalizado con error: %s  %s \n\n" 	"${0}" "${END_TIME}"  >> "${FILE_NAME_REP_DETALL}"
 fi
 
 
