@@ -106,7 +106,7 @@ then
 # Establecer fecha y hora de comienzo ejecucion
 # RUN_DATE Fecha y hora de la ejecucion del script
 
-START_TIME="$(date  +%Y-%m-%d_%H\:%M)"
+START_TIME="$(date  +%Y-%m-%d_%H\:%M\:%S)"
 
 # Reporte reducido se va generando por dia un archivo 
 # cuyo nombre es AA-MM-DD_Rep_reduc_dia.log
@@ -143,7 +143,7 @@ rsync -r ${RUN_TYPE} -t -p -o -g -v --progress --delete -i -s ${ORIGIN_DIR_NAME}
 
 # Escribir log de finalizacion indicando exito o fracaso
 
-END_TIME="$(date  +%Y-%m-%d_%H\:%M)"
+END_TIME="$(date  +%Y-%m-%d_%H\:%M\:%S)"
 
 
 # Verificar status del respaldo
