@@ -1,9 +1,10 @@
 #! /bin/bash
 # Version 1.1 2022.06.07
 # Version 1.2 2022.06.07 Agregado determinacion de RUN_TYPE del run string
+# 							Definir tipo de ejecucion del rsync
 # Version 2.0 2022.06.08 Agregada variable VERSION con numero de version
 # Version 2.1 2022.06.08 Agregada variables PROGRESS 
-# Definir tipo de ejecucion del rsync
+
 
 VERSION="2.1"
 
