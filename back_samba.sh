@@ -47,7 +47,7 @@ fi
 MOUNTED_ORIGIN_DIR_NAME="/samba"
 
 # y debe tener la marca que permita controlar eso
-ORIGIN_MARK_FILE="${ORIGIN_DIR_NAME}/.ORIGIN_MARK"
+ORIGIN_MARK_FILE="${MOUNTED_ORIGIN_DIR_NAME}/.ORIGIN_MARK"
 
 # El siguiente es el directorio que vamos a respladar. Reside dentro del anterior
 ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}/badubko-q/Back_F/BAS/Pagos"
