@@ -47,7 +47,7 @@ fi
 MOUNTED_ORIGIN_DIR_NAME="/samba"
 
 # y debe tener la marca que permita controlar eso
-ORIGIN_MARK_NAME="${ORIGIN_DIR_NAME}/.ORIGIN_MARK"
+ORIGIN_MARK_FILE="${ORIGIN_DIR_NAME}/.ORIGIN_MARK"
 
 # El siguiente es el directorio que vamos a respladar. Reside dentro del anterior
 ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}/badubko-q/Back_F/BAS/Pagos"
@@ -59,7 +59,7 @@ ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}/badubko-q/Back_F/BAS/Pagos"
 MOUNTED_DEST_DIR_NAME="/samba_0"
 
 # y debe tener la marca que permita controlar eso
-DEST_MARK_NAME="${MOUNTED_DEST_DIR_NAME}/.DEST_MARK"
+DEST_MARK_FILE="${MOUNTED_DEST_DIR_NAME}/.DEST_MARK"
 
 # El siguiente es el directorio al cual vamos a copiar. Reside dentro del anterior
 DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME}"
@@ -69,15 +69,15 @@ DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME}"
 # En ambos deberan estar creados archivos vacios que sirven de marca
 # para determinar si estan montados.
 
-if [ ! -f "${ORIGIN_MARK_NAME}" ]
+if [ ! -f "${ORIGIN_MARK_FILE}" ]
 then
-  echo "$0: No esta montado el directorio origen ${ORIGIN_DIR_NAME} ${ORIGIN_MARK_NAME}"
+  echo "$0: No esta montado el directorio origen ${ORIGIN_DIR_NAME} ${ORIGIN_MARK_FILE}"
   exit
 fi
 
-if [ ! -f "${DEST_MARK_NAME}" ]
+if [ ! -f "${DEST_MARK_FILE}" ]
 then
-  echo "$0: No esta montado el directorio destino ${DEST_DIR_NAME} ${DEST_MARK_NAME}"
+  echo "$0: No esta montado el directorio destino ${DEST_DIR_NAME} ${DEST_MARK_FILE}"
   exit
 fi
 
