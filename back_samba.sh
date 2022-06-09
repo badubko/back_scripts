@@ -28,28 +28,45 @@ else
   ;;
   *)
   # Es otro string. que sea DRY
-  RUN_TYPE="${DRY}"
+			RUN_TYPE="${DRY}"
  esac	
 
 fi
 
 
-# Verificar si los directorios origen y destino estan montados
-# en ambos estan creados archivos vacios que sirven de marca
-# para determinar si estan montados.
 
-# 
+#-----------------------------------------------------------------------
+# ORIGEN 
+#-----------------------------------------------------------------------
 #                 Origen CON /           (por ahora no....)
 # ORIGIN_DIR_NAME="/samba/"
 # ORIGIN_DIR_NAME="/media/badubko/badubko-q/Back_F/BAS/DOCS/PS_Adv"
-ORIGIN_DIR_NAME="/samba/badubko-q/Back_F/BAS/Pagos"
 
-#                 Destino SIN /                   v
-# DEST_DIR_NAME="/samba_back"
-DEST_DIR_NAME="/samba_0"
+#El siguiente es el directorio origen que debemos asegurarnos que este montado...
+MOUNTED_ORIGIN_DIR_NAME="/samba"
 
+# y debe tener la marca que permita controlar eso
 ORIGIN_MARK_NAME="${ORIGIN_DIR_NAME}/.ORIGIN_MARK"
-DEST_MARK_NAME="${DEST_DIR_NAME}/.DEST_MARK"
+
+# El siguiente es el directorio que vamos a respladar. Reside dentro del anterior
+ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}/badubko-q/Back_F/BAS/Pagos"
+#-----------------------------------------------------------------------
+# DESTINO 
+#-----------------------------------------------------------------------
+#                 Destino SIN /                   v
+#El siguiente es el directorio destino que debemos asegurarnos que este montado...
+MOUNTED_DEST_DIR_NAME="/samba_0"
+
+# y debe tener la marca que permita controlar eso
+DEST_MARK_NAME="${MOUNTED_DEST_DIR_NAME}/.DEST_MARK"
+
+# El siguiente es el directorio al cual vamos a copiar. Reside dentro del anterior
+DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME}"
+
+#-----------------------------------------------------------------------
+# Verificar si los directorios origen y destino estan montados
+# En ambos deberan estar creados archivos vacios que sirven de marca
+# para determinar si estan montados.
 
 if [ ! -f "${ORIGIN_MARK_NAME}" ]
 then
@@ -63,10 +80,11 @@ then
   exit
 fi
 
-#------------------------------------------------------------------------------------------------
-
+#-----------------------------------------------------------------------
 # Verificar si los directorios de log estan accesibles
-
+# Estos chequeos serviran en la fase de pruebas manuales
+# y no en "produccion" Donde van los mensajes del cron...???
+#-----------------------------------------------------------------------
 # Directorios logs
 DIR_BASE="/var/log/back_samba/"
 
@@ -107,7 +125,7 @@ then
   echo "$0: No existe ${SUB_DIR_DETALL_DATE}"
   mkdir  ${SUB_DIR_DETALL_DATE}
  fi
-
+#-----------------------------------------------------------------------
 
 # Establecer fecha y hora de comienzo ejecucion
 # RUN_DATE Fecha y hora de la ejecucion del script
