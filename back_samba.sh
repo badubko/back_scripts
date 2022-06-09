@@ -2,22 +2,28 @@
 # Version 1.1 2022.06.07
 # Version 1.2 2022.06.07 Agregado determinacion de RUN_TYPE del run string
 # Version 2.0 2022.06.08 Agregada variable VERSION con numero de version
+# Version 2.1 2022.06.08 Agregada variables PROGRESS 
 # Definir tipo de ejecucion del rsync
 
-VERSION="2.0"
+VERSION="2.1"
 
 DRY="-n"
 REAL=""
+
+PROGRESS_YES="--progress"
+PROGRESS_NO=""
+PROGRESS=${PROGRESS_NO}
+
 
 if [ $# -eq 0 ]
 then 
  RUN_TYPE="${DRY}"
 else
  case "${1,,}" in
- -dry | -d )
+ -dry | -d | --dry)
 			RUN_TYPE="${DRY}"
   ;;
- -real | -r )
+ -real | -r | --real )
 			RUN_TYPE="${REAL}"
   ;;
   *)
@@ -137,7 +143,7 @@ printf "          Archivo detalle: %s \n" 	"${FILE_NAME_REP_DETALL}" 				 >>${FI
 # printf "          File   : %s \n" 	"${SUB_DIR_DETALL_DATE}/${FILE_NAME_REP_DETALL}"
 
 # Ejecutar respaldo
-rsync -r ${RUN_TYPE} -t -p -o -g -v --progress --delete -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
+rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
 # echo rsync -r ${RUN_TYPE} -t -p -o -g -v --progress --delete -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME} 
 
 
