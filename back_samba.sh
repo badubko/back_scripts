@@ -151,8 +151,9 @@ FILE_NAME_REP_DETALL="${SUB_DIR_DETALL_DATE}/""$(date  +%Y-%m-%d_%H%M)""_Rep_det
 # Escribir log de comienzo
 
 # Inicializar archivo de detalle
-printf "          Comienzo Detalle: %s  Generado por:  %s %s Version: %s\n" 	"${START_TIME}"  ${0} ${1} ${VERSION}>${FILE_NAME_REP_DETALL}
-printf "          File reducido  : %s \n" 	"${FILE_NAME_REP_REDUC_DIA}" 							>>${FILE_NAME_REP_DETALL}
+printf "          Comienzo Detalle: %s \n"  "${START_TIME}"   >${FILE_NAME_REP_DETALL}
+printf "          Generado por:  %s %s Version: %s\n" 	 ${0} ${1} ${VERSION} >>${FILE_NAME_REP_DETALL}
+printf "          File reducido: %s \n" 	"${FILE_NAME_REP_REDUC_DIA}" 							>>${FILE_NAME_REP_DETALL}
 
 # Inicializar archivo reducido
 printf "          Comienzo: %s  Generado por: %s %s Version: %s\n" 	"${START_TIME}"  ${0} ${1} ${VERSION}  >> "${FILE_NAME_REP_REDUC_DIA}"
@@ -162,6 +163,8 @@ printf "          Archivo detalle: %s \n" 	"${FILE_NAME_REP_DETALL}" 				 >>${FI
 # printf "          File   : %s \n" 	"${SUB_DIR_DETALL_DATE}/${FILE_NAME_REP_DETALL}"
 
 # Ejecutar respaldo
+printf "          Origen:  %s \n "  ${ORIGIN_DIR_NAME} >>${FILE_NAME_REP_DETALL}
+printf "         Destino: %s \n\n" ${DEST_DIR_NAME}   >>${FILE_NAME_REP_DETALL}
 rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
 # echo rsync -r ${RUN_TYPE} -t -p -o -g -v --progress --delete -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME} 
 
