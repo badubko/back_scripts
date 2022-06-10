@@ -4,83 +4,14 @@
 # 							Definir tipo de ejecucion del rsync
 # Version 2.0 2022.06.08 Agregada variable VERSION con numero de version
 # Version 2.1 2022.06.08 Agregada variables PROGRESS 
-
-
-VERSION="2.4"
-
-DRY="-n"
-REAL=""
-
-PROGRESS_YES="--progress"
-PROGRESS_NO=""
-PROGRESS=${PROGRESS_NO}
-
-
-if [ $# -eq 0 ]
-then 
- RUN_TYPE="${DRY}"
-else
- case "${1,,}" in
- -dry | -d | --dry)
-			RUN_TYPE="${DRY}"
-  ;;
- -real | -r | --real )
-			RUN_TYPE="${REAL}"
-  ;;
-  *)
-  # Es otro string. que sea DRY
-			RUN_TYPE="${DRY}"
- esac	
-
-fi
-
+# Version 2.4 2022.06.10 Reordenamiento; Creacion de funciones de chequeo, y redireccionamiento
+#						 de output de errores a los logs.
 
 
 #-----------------------------------------------------------------------
-# ORIGEN 
+verificar_logs ()
 #-----------------------------------------------------------------------
-#                 Origen CON /           (por ahora no....)
-# ORIGIN_DIR_NAME="/samba/"
-# ORIGIN_DIR_NAME="/media/badubko/badubko-q/Back_F/BAS/DOCS/PS_Adv"
-
-#El siguiente es el directorio origen que debemos asegurarnos que este montado...
-MOUNTED_ORIGIN_DIR_NAME="/samba"
-
-# y debe tener la marca que permita controlar eso
-ORIGIN_MARK_FILE="${MOUNTED_ORIGIN_DIR_NAME}/.ORIGIN_MARK"
-
-# El siguiente es el directorio que vamos a respladar. Reside dentro del anterior
-ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}/badubko-q/Back_F/BAS/Pagos"
-#-----------------------------------------------------------------------
-# DESTINO 
-#-----------------------------------------------------------------------
-#                 Destino SIN /                   v
-#El siguiente es el directorio destino que debemos asegurarnos que este montado...
-MOUNTED_DEST_DIR_NAME="/samba_0"
-
-# y debe tener la marca que permita controlar eso
-DEST_MARK_FILE="${MOUNTED_DEST_DIR_NAME}/.DEST_MARK"
-
-# El siguiente es el directorio al cual vamos a copiar. Reside dentro del anterior
-DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME}"
-
-#-----------------------------------------------------------------------
-# Verificar si los directorios origen y destino estan montados
-# En ambos deberan estar creados archivos vacios que sirven de marca
-# para determinar si estan montados.
-
-if [ ! -f "${ORIGIN_MARK_FILE}" ]
-then
-  echo "$0: No esta montado el directorio origen ${ORIGIN_DIR_NAME} ${ORIGIN_MARK_FILE}"
-  exit
-fi
-
-if [ ! -f "${DEST_MARK_FILE}" ]
-then
-  echo "$0: No esta montado el directorio destino ${DEST_DIR_NAME} ${DEST_MARK_FILE}"
-  exit
-fi
-
+{
 #-----------------------------------------------------------------------
 # Verificar si los directorios de log estan accesibles
 # Estos chequeos serviran en la fase de pruebas manuales
@@ -123,10 +54,97 @@ fi
 
 if [ ! -d "${SUB_DIR_DETALL_DATE}" ]
 then
-  echo "$0: No existe ${SUB_DIR_DETALL_DATE}"
+#  echo "$0: No existe ${SUB_DIR_DETALL_DATE}"
   mkdir  ${SUB_DIR_DETALL_DATE}
  fi
+}
 #-----------------------------------------------------------------------
+
+#-----------------------------------------------------------------------
+verificar_origen_y_destino ()
+#-----------------------------------------------------------------------
+{
+#-----------------------------------------------------------------------
+# ORIGEN 
+#-----------------------------------------------------------------------
+#                 Origen CON /           (por ahora no....)
+# ORIGIN_DIR_NAME="/samba/"
+# ORIGIN_DIR_NAME="/media/badubko/badubko-q/Back_F/BAS/DOCS/PS_Adv"
+
+#El siguiente es el directorio origen que debemos asegurarnos que este montado...
+MOUNTED_ORIGIN_DIR_NAME="/samba"
+
+# y debe tener la marca que permita controlar eso
+ORIGIN_MARK_FILE="${MOUNTED_ORIGIN_DIR_NAME}/.ORIGIN_MARK"
+
+# El siguiente es el directorio que vamos a respladar. Reside dentro del anterior
+ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}/badubko-q/Back_F/BAS/Pagos"
+#-----------------------------------------------------------------------
+# DESTINO 
+#-----------------------------------------------------------------------
+#                 Destino SIN /                   v
+#El siguiente es el directorio destino que debemos asegurarnos que este montado...
+MOUNTED_DEST_DIR_NAME="/samba_0"
+
+# y debe tener la marca que permita controlar eso
+DEST_MARK_FILE="${MOUNTED_DEST_DIR_NAME}/.DEST_MARK"
+
+# El siguiente es el directorio al cual vamos a copiar. Reside dentro del anterior
+DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME}"
+
+#-----------------------------------------------------------------------
+# Verificar si los directorios origen y destino estan montados
+# En ambos deberan estar creados archivos vacios que sirven de marca
+# para determinar si estan montados.
+
+if [ ! -f "${ORIGIN_MARK_FILE}" ]
+then
+  echo "$0: No esta montado el directorio origen ${ORIGIN_DIR_NAME} ${ORIGIN_MARK_FILE}" >> "${FILE_NAME_REP_REDUC_DIA}"
+  exit
+fi
+
+if [ ! -f "${DEST_MARK_FILE}" ]
+then
+  echo "$0: No esta montado el directorio destino ${DEST_DIR_NAME} ${DEST_MARK_FILE}" >> "${FILE_NAME_REP_REDUC_DIA}"
+  exit
+fi
+}
+#-----------------------------------------------------------------------
+
+#-----------------------------------------------------------------------
+# script principal
+#-----------------------------------------------------------------------
+
+# Inicializar variables varias
+VERSION="2.4"
+
+DRY="-n"
+REAL=""
+
+PROGRESS_YES="--progress"
+PROGRESS_NO=""
+PROGRESS=${PROGRESS_NO}
+#-----------------------------------------------------------------------
+
+if [ $# -eq 0 ]
+then 
+ RUN_TYPE="${DRY}"
+else
+ case "${1,,}" in
+ -dry | -d | --dry)
+			RUN_TYPE="${DRY}"
+  ;;
+ -real | -r | --real )
+			RUN_TYPE="${REAL}"
+  ;;
+  *)
+  # Es otro string. que sea DRY
+			RUN_TYPE="${DRY}"
+ esac	
+
+fi
+
+verificar_logs ()
 
 # Establecer fecha y hora de comienzo ejecucion
 # RUN_DATE Fecha y hora de la ejecucion del script
@@ -146,9 +164,8 @@ FILE_NAME_REP_REDUC_DIA="${DIR_REDUC}/""$(date  +%Y-%m-%d)""_Rep_reduc_dia.log"
 
 FILE_NAME_REP_DETALL="${SUB_DIR_DETALL_DATE}/""$(date  +%Y-%m-%d_%H%M)""_Rep_detall.log" 
 
-# Inicializar variables varias
 
-# Escribir log de comienzo
+# Escribir logs de comienzo
 
 # Inicializar archivo de detalle
 printf "          Comienzo Detalle: %s \n"  "${START_TIME}"   >${FILE_NAME_REP_DETALL}
@@ -161,6 +178,8 @@ printf "          Comienzo: %s  Generado por: %s %s Version: %s\n" 	"${START_TIM
 printf "          Archivo detalle: %s \n" 	"${FILE_NAME_REP_DETALL}" 				 >>${FILE_NAME_REP_REDUC_DIA}
 
 # printf "          File   : %s \n" 	"${SUB_DIR_DETALL_DATE}/${FILE_NAME_REP_DETALL}"
+
+verificar_origen_y_destino 
 
 # Ejecutar respaldo
 printf "          Origen:  %s \n "  ${ORIGIN_DIR_NAME} >>${FILE_NAME_REP_DETALL}
