@@ -6,7 +6,7 @@
 # Version 2.1 2022.06.08 Agregada variables PROGRESS 
 
 
-VERSION="2.1"
+VERSION="2.4"
 
 DRY="-n"
 REAL=""
