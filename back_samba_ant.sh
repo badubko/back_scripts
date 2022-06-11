@@ -99,13 +99,13 @@ DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME}"
 
 if [ ! -f "${ORIGIN_MARK_FILE}" ]
 then
-  echo -e "$0: No esta montado el directorio origen ${ORIGIN_MARK_FILE}\n" >> "${FILE_NAME_REP_REDUC_DIA}"
+  echo "$0: No esta montado el directorio origen ${ORIGIN_DIR_NAME} ${ORIGIN_MARK_FILE}" >> "${FILE_NAME_REP_REDUC_DIA}"
   exit
 fi
 
 if [ ! -f "${DEST_MARK_FILE}" ]
 then
-  echo -e "$0: No esta montado el directorio destino ${DEST_MARK_FILE}\n" >> "${FILE_NAME_REP_REDUC_DIA}"
+  echo "$0: No esta montado el directorio destino ${DEST_DIR_NAME} ${DEST_MARK_FILE}" >> "${FILE_NAME_REP_REDUC_DIA}"
   exit
 fi
 }
@@ -131,7 +131,7 @@ then
  RUN_TYPE="${DRY}"
 else
  case "${1,,}" in
- -dry | -d | --dry | -n)
+ -dry | -d | --dry)
 			RUN_TYPE="${DRY}"
   ;;
  -real | -r | --real )
@@ -144,7 +144,7 @@ else
 
 fi
 
-verificar_logs 
+verificar_logs ()
 
 # Establecer fecha y hora de comienzo ejecucion
 # RUN_DATE Fecha y hora de la ejecucion del script
@@ -179,13 +179,12 @@ printf "          Archivo detalle: %s \n" 	"${FILE_NAME_REP_DETALL}" 				 >>${FI
 
 # printf "          File   : %s \n" 	"${SUB_DIR_DETALL_DATE}/${FILE_NAME_REP_DETALL}"
 
-
 verificar_origen_y_destino 
 
 # Ejecutar respaldo
 printf "          Origen:  %s \n "  ${ORIGIN_DIR_NAME} >>${FILE_NAME_REP_DETALL}
 printf "         Destino: %s \n\n" ${DEST_DIR_NAME}   >>${FILE_NAME_REP_DETALL}
-echo rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
+rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
 # echo rsync -r ${RUN_TYPE} -t -p -o -g -v --progress --delete -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME} 
 
 
