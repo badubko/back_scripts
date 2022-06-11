@@ -175,7 +175,7 @@ printf "          File reducido: %s \n" 	"${FILE_NAME_REP_REDUC_DIA}" 							>>$
 # Inicializar archivo reducido
 printf "          Comienzo: %s  Generado por: %s %s Version: %s\n" 	"${START_TIME}"  ${0} "${RUN_TYPE}" ${VERSION}  >> "${FILE_NAME_REP_REDUC_DIA}"
 
-printf "          Archivo detalle: %s \n" 	"${FILE_NAME_REP_DETALL}" 				 >>${FILE_NAME_REP_REDUC_DIA}
+printf "          Archivo detalle: %s\n" 	"${FILE_NAME_REP_DETALL}" 				 >>${FILE_NAME_REP_REDUC_DIA}
 
 # printf "          File   : %s \n" 	"${SUB_DIR_DETALL_DATE}/${FILE_NAME_REP_DETALL}"
 
@@ -185,9 +185,8 @@ verificar_origen_y_destino
 # Ejecutar respaldo
 printf "          Origen:  %s \n "  ${ORIGIN_DIR_NAME} >>${FILE_NAME_REP_DETALL}
 printf "         Destino: %s \n\n" ${DEST_DIR_NAME}   >>${FILE_NAME_REP_DETALL}
-echo rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
-# echo rsync -r ${RUN_TYPE} -t -p -o -g -v --progress --delete -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME} 
 
+rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
 
 # Escribir log de finalizacion indicando exito o fracaso
 
