@@ -7,6 +7,9 @@
 # Version 2.4 2022.06.10 Reordenamiento; Creacion de funciones de chequeo, y redireccionamiento
 #						 de output de errores a los logs.
 # Version 2.6 2022.06.23 Nuevos directorios. Ahora va en serio...
+#						 Agregado de --exclude-from=FILE 
+#						 Reordenada la inicializacion de los logs. Si el exclude 
+# 						 o los dirs origen y destino no estan, no se escribe arch de detalle.
 
 #-----------------------------------------------------------------------
 verificar_logs ()
@@ -110,6 +113,17 @@ then
 fi
 }
 #-----------------------------------------------------------------------
+verificar_exclude_file()
+#-----------------------------------------------------------------------
+{
+EXCLUDE_FILE="./exclude_patterns_file.txt"
+if [ ! -f "${EXCLUDE_FILE}" ]
+then
+  echo -e "$0: No existe el exclude file: ${EXCLUDE_FILE}\n" >> "${FILE_NAME_REP_REDUC_DIA}"
+  exit
+fi
+
+}
 
 #-----------------------------------------------------------------------
 # script principal
@@ -167,26 +181,29 @@ FILE_NAME_REP_DETALL="${SUB_DIR_DETALL_DATE}/""$(date  +%Y-%m-%d_%H%M)""_Rep_det
 
 # Escribir logs de comienzo
 
+# Inicializar archivo reducido
+
+printf "          Comienzo: %s  Generado por: %s %s Version: %s\n" 	"${START_TIME}"  ${0} "${RUN_TYPE}" ${VERSION}  >> "${FILE_NAME_REP_REDUC_DIA}"
+
+verificar_origen_y_destino 
+
+verificar_exclude_file
+
+# Aca estamos en condiciones de indicar que habra archivo de detalle
+
+printf "          Archivo detalle: %s\n" 	"${FILE_NAME_REP_DETALL}" 				 >>${FILE_NAME_REP_REDUC_DIA}
+
 # Inicializar archivo de detalle
 printf "          Comienzo Detalle: %s \n"  "${START_TIME}"   >${FILE_NAME_REP_DETALL}
 printf "          Generado por:  %s %s Version: %s \n" 	 ${0} "${RUN_TYPE}" ${VERSION} >>${FILE_NAME_REP_DETALL}
 printf "          File reducido: %s \n" 	"${FILE_NAME_REP_REDUC_DIA}" 							>>${FILE_NAME_REP_DETALL}
 
-# Inicializar archivo reducido
-printf "          Comienzo: %s  Generado por: %s %s Version: %s\n" 	"${START_TIME}"  ${0} "${RUN_TYPE}" ${VERSION}  >> "${FILE_NAME_REP_REDUC_DIA}"
-
-printf "          Archivo detalle: %s\n" 	"${FILE_NAME_REP_DETALL}" 				 >>${FILE_NAME_REP_REDUC_DIA}
-
-# printf "          File   : %s \n" 	"${SUB_DIR_DETALL_DATE}/${FILE_NAME_REP_DETALL}"
-
-
-verificar_origen_y_destino 
-
 # Ejecutar respaldo
 printf "          Origen:  %s \n "  ${ORIGIN_DIR_NAME} >>${FILE_NAME_REP_DETALL}
 printf "         Destino: %s \n\n" ${DEST_DIR_NAME}   >>${FILE_NAME_REP_DETALL}
 
-rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete --exclude 'timeshift' --exclude '.Trash-1000' --exclude 'lost+found' -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
+#rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete --exclude 'timeshift' --exclude '.Trash-1000' --exclude 'lost+found' -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
+rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete --exclude-from="${EXCLUDE_FILE}" -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
 
 # Escribir log de finalizacion indicando exito o fracaso
 
@@ -197,7 +214,7 @@ END_TIME="$(date  +%Y-%m-%d_%H\:%M\:%S)"
 if [ $? -eq 0 ]
 then
    printf "          Finalizado OK: %s  \n\n" 	"${END_TIME}"  >> "${FILE_NAME_REP_REDUC_DIA}"
-   printf "          Finalizado OK: %s  \n\n" 	"${END_TIME}"  >> "${FILE_NAME_REP_DETALL}"
+   printf "\n          Finalizado OK: %s  \n\n" 	"${END_TIME}"  >> "${FILE_NAME_REP_DETALL}"
 else
    printf "         Finalizado con error: %s  %s \n\n" 	"${?}" "${END_TIME}"  >> "${FILE_NAME_REP_REDUC_DIA}"
    printf "         Finalizado con error: %s  %s \n\n" 	"${?}" "${END_TIME}"  >> "${FILE_NAME_REP_DETALL}"
