@@ -6,7 +6,7 @@
 # Version 2.1 2022.06.08 Agregada variables PROGRESS 
 # Version 2.4 2022.06.10 Reordenamiento; Creacion de funciones de chequeo, y redireccionamiento
 #						 de output de errores a los logs.
-
+# Version 2.6 2022.06.23 Nuevos directorios. Ahora va en serio...
 
 #-----------------------------------------------------------------------
 verificar_logs ()
@@ -78,7 +78,7 @@ MOUNTED_ORIGIN_DIR_NAME="/samba"
 ORIGIN_MARK_FILE="${MOUNTED_ORIGIN_DIR_NAME}/.ORIGIN_MARK"
 
 # El siguiente es el directorio que vamos a respladar. Reside dentro del anterior
-ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}/badubko-q/Back_F/BAS/Pagos"
+ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}/"
 #-----------------------------------------------------------------------
 # DESTINO 
 #-----------------------------------------------------------------------
@@ -116,7 +116,7 @@ fi
 #-----------------------------------------------------------------------
 
 # Inicializar variables varias
-VERSION="2.4"
+VERSION="2.6"
 
 DRY="-n"
 REAL=""
