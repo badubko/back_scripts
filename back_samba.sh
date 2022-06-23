@@ -186,7 +186,7 @@ verificar_origen_y_destino
 printf "          Origen:  %s \n "  ${ORIGIN_DIR_NAME} >>${FILE_NAME_REP_DETALL}
 printf "         Destino: %s \n\n" ${DEST_DIR_NAME}   >>${FILE_NAME_REP_DETALL}
 
-rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
+rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete --exclude 'timeshift' --exclude '.Trash-1000' --exclude 'lost+found' -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
 
 # Escribir log de finalizacion indicando exito o fracaso
 
@@ -199,8 +199,8 @@ then
    printf "          Finalizado OK: %s  \n\n" 	"${END_TIME}"  >> "${FILE_NAME_REP_REDUC_DIA}"
    printf "          Finalizado OK: %s  \n\n" 	"${END_TIME}"  >> "${FILE_NAME_REP_DETALL}"
 else
-   printf "         Finalizado con error: %s  %s \n\n" 	"${0}" "${END_TIME}"  >> "${FILE_NAME_REP_REDUC_DIA}"
-   printf "         Finalizado con error: %s  %s \n\n" 	"${0}" "${END_TIME}"  >> "${FILE_NAME_REP_DETALL}"
+   printf "         Finalizado con error: %s  %s \n\n" 	"${?}" "${END_TIME}"  >> "${FILE_NAME_REP_REDUC_DIA}"
+   printf "         Finalizado con error: %s  %s \n\n" 	"${?}" "${END_TIME}"  >> "${FILE_NAME_REP_DETALL}"
 fi
 
 
