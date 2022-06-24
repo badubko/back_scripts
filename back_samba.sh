@@ -116,7 +116,7 @@ fi
 verificar_exclude_file()
 #-----------------------------------------------------------------------
 {
-EXCLUDE_FILE="./exclude_patterns_file.txt"
+EXCLUDE_FILE="/opt/back_samba/exclude_patterns_file.txt"
 if [ ! -f "${EXCLUDE_FILE}" ]
 then
   echo -e "$0: No existe el exclude file: ${EXCLUDE_FILE}\n" >> "${FILE_NAME_REP_REDUC_DIA}"
