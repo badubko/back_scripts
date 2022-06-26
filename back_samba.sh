@@ -10,7 +10,8 @@
 #						 Agregado de --exclude-from=FILE 
 #						 Reordenada la inicializacion de los logs. Si el exclude 
 # 						 o los dirs origen y destino no estan, no se escribe arch de detalle.
-
+# Version 2.8 2022.06.25 Determina la ubicacion del exclude file a partir del
+#						 directorio desde donde se ejecuta el script
 #-----------------------------------------------------------------------
 verificar_logs ()
 #-----------------------------------------------------------------------
@@ -116,7 +117,15 @@ fi
 verificar_exclude_file()
 #-----------------------------------------------------------------------
 {
-EXCLUDE_FILE="/opt/back_samba/exclude_patterns_file.txt"
+# No cambiar el nombre de esta variable, ya que el deploy la busca para
+# obtener el nombre del archivo exclude
+
+EXCLUDE_FILE_NAME="exclude_patterns_file.txt"
+
+EXCLUDE_FILE="$(dirname ${0})/${EXCLUDE_FILE_NAME}"
+
+# echo ${EXCLUDE_FILE}
+
 if [ ! -f "${EXCLUDE_FILE}" ]
 then
   echo -e "$0: No existe el exclude file: ${EXCLUDE_FILE}\n" >> "${FILE_NAME_REP_REDUC_DIA}"
