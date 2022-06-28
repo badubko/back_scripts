@@ -11,6 +11,9 @@ VERSION="2.8"
 
 TARGET_SCRIPT="./back_samba.sh"
 
+# Gets exclude file name from back_samba.sh. It's assumed that it resides in the same directory
+# as the main script.
+
 TARGET_EXCLUDE="./"$(grep "EXCLUDE_FILE_NAME=" ./back_samba.sh| sed -r 's/EXCLUDE_FILE_NAME=\"(.*)\"/\1/' )
 
 DEST_DIR="/opt/back_samba/"
