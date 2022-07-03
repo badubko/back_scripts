@@ -12,6 +12,7 @@
 # 						 o los dirs origen y destino no estan, no se escribe arch de detalle.
 # Version 2.8 2022.06.25 Determina la ubicacion del exclude file a partir del
 #						 directorio desde donde se ejecuta el script
+# Version 3.0 2022.07.03 Modificada para ser backup de Photos a rojo
 #-----------------------------------------------------------------------
 verificar_logs ()
 #-----------------------------------------------------------------------
@@ -139,7 +140,7 @@ fi
 #-----------------------------------------------------------------------
 
 # Inicializar variables varias
-VERSION="2.8"
+VERSION="3.0"
 
 DRY="-n"
 REAL=""
