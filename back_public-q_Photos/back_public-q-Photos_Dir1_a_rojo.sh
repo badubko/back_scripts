@@ -83,19 +83,19 @@ MOUNTED_ORIGIN_DIR_NAME="/samba"
 ORIGIN_MARK_FILE="${MOUNTED_ORIGIN_DIR_NAME}/.ORIGIN_MARK"
 
 # El siguiente es el directorio que vamos a respladar. Reside dentro del anterior
-ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}/"
+ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}/public-q/Photos"
 #-----------------------------------------------------------------------
 # DESTINO 
 #-----------------------------------------------------------------------
 #                 Destino SIN /                   v
 #El siguiente es el directorio destino que debemos asegurarnos que este montado...
-MOUNTED_DEST_DIR_NAME="/samba_0"
+MOUNTED_DEST_DIR_NAME="/media/badubko/Seagate_Backup_Plus_Drive"
 
 # y debe tener la marca que permita controlar eso
 DEST_MARK_FILE="${MOUNTED_DEST_DIR_NAME}/.DEST_MARK"
 
 # El siguiente es el directorio al cual vamos a copiar. Reside dentro del anterior
-DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME}"
+DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME}/Public/Photos"
 
 #-----------------------------------------------------------------------
 # Verificar si los directorios origen y destino estan montados
