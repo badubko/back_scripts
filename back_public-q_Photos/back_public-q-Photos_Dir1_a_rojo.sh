@@ -23,7 +23,7 @@ verificar_logs ()
 # y no en "produccion" Donde van los mensajes del cron...???
 #-----------------------------------------------------------------------
 # Directorios logs
-DIR_BASE="/var/log/back_samba/"
+DIR_BASE="/var/log/back_a_rojo/"
 
 # Verificar existencia de directorio base de logs
 # Esto deberia escribir el mens de error en otro directorio...
@@ -34,7 +34,7 @@ then
 fi
 
 # En el directorio DIR_REDUC se van escribiendo todos los logs reducidos
-DIR_REDUC=${DIR_BASE}"back_samba_reduc"
+DIR_REDUC=${DIR_BASE}"back_a_rojo_reduc"
 
 # Verificar existencia de directorio de logs reducidos
 # Esto deberia escribir el mens de error en otro directorio...
@@ -46,7 +46,7 @@ fi
 
 # En el directorio DIR_DETALL se van creando subdirs por dia y se va escribiendo los logs detallados
 # correspondientes a cada dia
-DIR_DETALL=${DIR_BASE}"back_samba_detalle"
+DIR_DETALL=${DIR_BASE}"back_a_rojo_detalle"
 SUB_DIR_DETALL_DATE="${DIR_DETALL}/$(date  +%Y-%m-%d)"
 
 # Verificar existencia de directorio de logs de detalle
@@ -83,7 +83,7 @@ MOUNTED_ORIGIN_DIR_NAME="/samba"
 ORIGIN_MARK_FILE="${MOUNTED_ORIGIN_DIR_NAME}/.ORIGIN_MARK"
 
 # El siguiente es el directorio que vamos a respladar. Reside dentro del anterior
-ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}/public-q/Photos"
+ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}/public-q/Photos/"
 #-----------------------------------------------------------------------
 # DESTINO 
 #-----------------------------------------------------------------------
@@ -106,12 +106,16 @@ if [ ! -f "${ORIGIN_MARK_FILE}" ]
 then
   echo -e "$0: No esta montado el directorio origen ${ORIGIN_MARK_FILE}\n" >> "${FILE_NAME_REP_REDUC_DIA}"
   exit
+else
+  echo "Dir origen OK"  
 fi
 
 if [ ! -f "${DEST_MARK_FILE}" ]
 then
   echo -e "$0: No esta montado el directorio destino ${DEST_MARK_FILE}\n" >> "${FILE_NAME_REP_REDUC_DIA}"
   exit
+else
+  echo "Dir destino OK"
 fi
 }
 #-----------------------------------------------------------------------
@@ -121,7 +125,7 @@ verificar_exclude_file()
 # No cambiar el nombre de esta variable, ya que el deploy la busca para
 # obtener el nombre del archivo exclude
 
-EXCLUDE_FILE_NAME="exclude_patterns_file.txt"
+EXCLUDE_FILE_NAME="exclude_patterns_public-q_Photos.txt"
 
 EXCLUDE_FILE="$(dirname ${0})/${EXCLUDE_FILE_NAME}"
 
@@ -131,6 +135,8 @@ if [ ! -f "${EXCLUDE_FILE}" ]
 then
   echo -e "$0: No existe el exclude file: ${EXCLUDE_FILE}\n" >> "${FILE_NAME_REP_REDUC_DIA}"
   exit
+else
+  echo "Exclude file OK"
 fi
 
 }
@@ -180,24 +186,25 @@ START_TIME="$(date  +%Y-%m-%d_%H\:%M\:%S)"
 # en este se va agregando el time stamp (ddmmaa_hhmm) del comienzo, el status fin y el time stamp fin
 # de cada ejecucion del respaldo
 
-FILE_NAME_REP_REDUC_DIA="${DIR_REDUC}/""$(date  +%Y-%m-%d)""_Rep_reduc_dia.log"    
+FILE_NAME_REP_REDUC_DIA="${DIR_REDUC}/""$(date  +%Y-%m-%d)""_Rep_reduc_a_rojo.log"    
 
 # Reporte detallado se va generando por cada ejecucion del respaldo y contiene todo el detalle del respaldo
 # Lo escribe el programa de respaldo
 # El nombre es AA-MM-DD_HHMM_Rep_detall.log
 
-FILE_NAME_REP_DETALL="${SUB_DIR_DETALL_DATE}/""$(date  +%Y-%m-%d_%H%M)""_Rep_detall.log" 
+FILE_NAME_REP_DETALL="${SUB_DIR_DETALL_DATE}/""$(date  +%Y-%m-%d_%H%M)""_Rep_detall_a_rojo.log" 
 
 
 # Escribir logs de comienzo
 
 # Inicializar archivo reducido
 
-printf "          Comienzo: %s  Generado por: %s %s Version: %s\n" 	"${START_TIME}"  ${0} "${RUN_TYPE}" ${VERSION}  >> "${FILE_NAME_REP_REDUC_DIA}"
+printf "\n          Comienzo: %s  Generado por: %s %s Version: %s\n" 	"${START_TIME}"  ${0} "${RUN_TYPE}" ${VERSION}  >> "${FILE_NAME_REP_REDUC_DIA}"
 
 verificar_origen_y_destino 
 
 verificar_exclude_file
+
 
 # Aca estamos en condiciones de indicar que habra archivo de detalle
 
