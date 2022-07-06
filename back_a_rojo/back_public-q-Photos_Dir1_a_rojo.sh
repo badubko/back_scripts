@@ -23,7 +23,7 @@ verificar_logs ()
 # y no en "produccion" Donde van los mensajes del cron...???
 #-----------------------------------------------------------------------
 # Directorios logs
-DIR_BASE="DIR_BASE_GEN"
+DIR_BASE="/var/log/back_a_rojo/"
 
 # Verificar existencia de directorio base de logs
 # Esto deberia escribir el mens de error en otro directorio...
@@ -34,7 +34,7 @@ then
 fi
 
 # En el directorio DIR_REDUC se van escribiendo todos los logs reducidos
-DIR_REDUC=${DIR_BASE}"DIR_REDUC_GEN"
+DIR_REDUC=${DIR_BASE}"back_a_rojo_reduc"
 
 # Verificar existencia de directorio de logs reducidos
 # Esto deberia escribir el mens de error en otro directorio...
@@ -46,7 +46,7 @@ fi
 
 # En el directorio DIR_DETALL se van creando subdirs por dia y se va escribiendo los logs detallados
 # correspondientes a cada dia
-DIR_DETALL=${DIR_BASE}"DIR_DETALL_GEN"
+DIR_DETALL=${DIR_BASE}"back_a_rojo_detalle"
 SUB_DIR_DETALL_DATE="${DIR_DETALL}/$(date  +%Y-%m-%d)"
 
 # Verificar existencia de directorio de logs de detalle
@@ -77,25 +77,25 @@ verificar_origen_y_destino ()
 # ORIGIN_DIR_NAME="/media/badubko/badubko-q/Back_F/BAS/DOCS/PS_Adv"
 
 #El siguiente es el directorio origen que debemos asegurarnos que este montado...
-MOUNTED_ORIGIN_DIR_NAME="MOUNTED_ORIGIN_DIR_NAME_GEN"
+MOUNTED_ORIGIN_DIR_NAME="/samba"
 
 # y debe tener la marca que permita controlar eso
 ORIGIN_MARK_FILE="${MOUNTED_ORIGIN_DIR_NAME}/.ORIGIN_MARK"
 
 # El siguiente es el directorio que vamos a respladar. Reside dentro del anterior
-ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}ORIGIN_DIR_NAME_GEN"
+ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}/public-q/Photos/"
 #-----------------------------------------------------------------------
 # DESTINO 
 #-----------------------------------------------------------------------
 #                 Destino SIN /                   v
 #El siguiente es el directorio destino que debemos asegurarnos que este montado...
-MOUNTED_DEST_DIR_NAME="MOUNTED_DEST_DIR_NAME_GEN"
+MOUNTED_DEST_DIR_NAME="/media/badubko/Seagate_Backup_Plus_Drive"
 
 # y debe tener la marca que permita controlar eso
 DEST_MARK_FILE="${MOUNTED_DEST_DIR_NAME}/.DEST_MARK"
 
 # El siguiente es el directorio al cual vamos a copiar. Reside dentro del anterior
-DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME}DEST_DIR_NAME_GEN"
+DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME}/Public/Photos"
 
 #-----------------------------------------------------------------------
 # Verificar si los directorios origen y destino estan montados
