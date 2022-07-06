@@ -72,3 +72,11 @@ sed -i -r -e "s%MOUNTED_DEST_DIR_NAME_GEN%${MOUNTED_DEST_DIR_NAME}%" ./${TGT_SCR
 DEST_DIR_NAME=$(grep 'DEST_DIR_NAME=' ./${CONFIG_FILE_NAME}| grep -v "MOUNTED" | sed -r 's/DEST_DIR_NAME=\"(.*)\"/\1/' )
 echo "DEST_DIR_NAME: " ${DEST_DIR_NAME}
 sed -i -r -e "s%DEST_DIR_NAME_GEN%${DEST_DIR_NAME}%" ./${TGT_SCRIPT_NAME}
+
+#-----------------------------------------------------------------------
+# EXCLUDE_FILE_NAME="EXCLUDE_FILE_NAME_GEN"
+#-----------------------------------------------------------------------
+EXCLUDE_FILE_NAME=$(grep 'EXCLUDE_FILE_NAME=' ./${CONFIG_FILE_NAME}| sed -r 's/EXCLUDE_FILE_NAME=\"(.*)\"/\1/' )
+echo "EXCLUDE_FILE_NAME: " ${EXCLUDE_FILE_NAME}
+sed -i -r -e "s%EXCLUDE_FILE_NAME_GEN%${EXCLUDE_FILE_NAME}%" ./${TGT_SCRIPT_NAME}
+

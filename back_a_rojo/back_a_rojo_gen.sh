@@ -125,7 +125,7 @@ verificar_exclude_file()
 # No cambiar el nombre de esta variable, ya que el deploy la busca para
 # obtener el nombre del archivo exclude
 
-EXCLUDE_FILE_NAME="exclude_patterns_public-q_Photos.txt"
+EXCLUDE_FILE_NAME="EXCLUDE_FILE_NAME_GEN"
 
 EXCLUDE_FILE="$(dirname ${0})/${EXCLUDE_FILE_NAME}"
 
