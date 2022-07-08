@@ -1,6 +1,6 @@
 #! /bin/bash
 
-VERSION=3.0
+VERSION=3.2
 
 if [ $# -eq 0 ]
 then 
