@@ -186,7 +186,7 @@ fi
 #-----------------------------------------------------------------------
 
 # Inicializar variables varias
-VERSION="3.2"
+VERSION="4.0"
 
 DRY="-n"
 REAL=""
