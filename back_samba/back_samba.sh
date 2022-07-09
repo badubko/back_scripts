@@ -186,7 +186,7 @@ fi
 #-----------------------------------------------------------------------
 
 # Inicializar variables varias
-VERSION="4.0"
+VERSION="3.2"
 
 DRY="-n"
 REAL=""
@@ -199,6 +199,24 @@ PROGRESS=${PROGRESS_NO}
 # Este es el insert marker:
 #-----------------------------------------------------------------------
 # INSERT_CONFIG_HERE
+# Configurarion file for back_a_rojo
+
+TGT_SCRIPT_NAME="back_samba.sh"
+
+DIR_BASE_CFG="/var/log/back_samba/"
+DIR_REDUC_CFG="back_samba_reduc"
+DIR_DETALL_CFG="back_samba_detalle"
+
+MOUNTED_ORIGIN_DIR_NAME_CFG="/samba"
+ORIGIN_DIR_NAME_CFG="/"
+
+MOUNTED_DEST_DIR_NAME_CFG="/samba_0"
+DEST_DIR_NAME_CFG=""
+
+EXCLUDE_FILE_NAME_CFG="exclude_patterns_samba.txt"
+
+NAME_REP_REDUC_CFG="_Rep_reduc_samba.log"
+NAME_REP_DETALL_CFG="_Rep_detall_samba.log"
 
 #-----------------------------------------------------------------------
 
