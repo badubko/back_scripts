@@ -48,18 +48,53 @@ then
   exit
 fi
 
+# En el directorio DIR_REDUC se van creando subdirs por año y luego año-mes
+# en los cuales se escribiran los logs de cada dia del mes.
+# Al final de esta seccion, DIR_REDUC contendra el path completo.
+
+if [ ! -d "${DIR_REDUC}/${CURR_YEAR}" ]
+then
+   mkdir  "${DIR_REDUC}/${CURR_YEAR}"
+fi
+
+DIR_REDUC="${DIR_REDUC}/${CURR_YEAR}"
+
+if [ ! -d "${DIR_REDUC}/${CURR_YEAR_MONTH}" ]
+then
+   mkdir  "${DIR_REDUC}/${CURR_YEAR_MONTH}"
+fi
+
+DIR_REDUC="${DIR_REDUC}/${CURR_YEAR_MONTH}"
+
+
 # En el directorio DIR_DETALL se van creando subdirs por dia y se va escribiendo los logs detallados
 # correspondientes a cada dia
 DIR_DETALL=${DIR_BASE}"${DIR_DETALL_CFG}"
-SUB_DIR_DETALL_DATE="${DIR_DETALL}/$(date  +%Y-%m-%d)"
 
 # Verificar existencia de directorio de logs de detalle
 # Esto deberia escribir el mens de error en otro directorio...
+
 if [ ! -d "${DIR_DETALL}" ]
 then
   echo "$0: No existe ${DIR_DETALL}"
   exit
 fi
+
+if [ ! -d "${DIR_DETALL}/${CURR_YEAR}" ]
+then
+   mkdir  "${DIR_DETALL}/${CURR_YEAR}"
+fi
+
+DIR_DETALL="${DIR_DETALL}/${CURR_YEAR}"
+
+if [ ! -d "${DIR_DETALL}/${CURR_YEAR_MONTH}" ]
+then
+   mkdir  "${DIR_DETALL}/${CURR_YEAR_MONTH}"
+fi
+
+DIR_DETALL="${DIR_DETALL}/${CURR_YEAR_MONTH}"
+
+SUB_DIR_DETALL_DATE="${DIR_DETALL}/$(date  +%Y-%m-%d)"
 
 if [ ! -d "${SUB_DIR_DETALL_DATE}" ]
 then
@@ -146,7 +181,7 @@ fi
 }
 
 #-----------------------------------------------------------------------
-# script principal
+# Script principal
 #-----------------------------------------------------------------------
 
 # Inicializar variables varias
@@ -179,6 +214,9 @@ DEST_DIR_NAME_CFG="/Public/Photos"
 
 EXCLUDE_FILE_NAME_CFG="exclude_patterns_public-q_Photos.txt"
 
+NAME_REP_REDUC_CFG="_Rep_reduc_a_rojo.log"
+NAME_REP_DETALL_CFG="_Rep_detall_a_rojo.log"
+
 #-----------------------------------------------------------------------
 
 if [ $# -eq 0 ]
@@ -199,6 +237,9 @@ else
 
 fi
 
+CURR_YEAR="$(date  +%Y)"
+CURR_YEAR_MONTH="$(date  +%Y-%m)"
+
 verificar_logs 
 
 # Establecer fecha y hora de comienzo ejecucion
@@ -211,13 +252,13 @@ START_TIME="$(date  +%Y-%m-%d_%H\:%M\:%S)"
 # en este se va agregando el time stamp (ddmmaa_hhmm) del comienzo, el status fin y el time stamp fin
 # de cada ejecucion del respaldo
 
-FILE_NAME_REP_REDUC_DIA="${DIR_REDUC}/""$(date  +%Y-%m-%d)""_Rep_reduc_a_rojo.log"    
+FILE_NAME_REP_REDUC_DIA="${DIR_REDUC}/""$(date  +%Y-%m-%d)""${NAME_REP_REDUC_CFG}"    
 
 # Reporte detallado se va generando por cada ejecucion del respaldo y contiene todo el detalle del respaldo
 # Lo escribe el programa de respaldo
 # El nombre es AA-MM-DD_HHMM_Rep_detall.log
 
-FILE_NAME_REP_DETALL="${SUB_DIR_DETALL_DATE}/""$(date  +%Y-%m-%d_%H%M)""_Rep_detall_a_rojo.log" 
+FILE_NAME_REP_DETALL="${SUB_DIR_DETALL_DATE}/""$(date  +%Y-%m-%d_%H%M)""${NAME_REP_DETALL_CFG}" 
 
 
 # Escribir logs de comienzo
