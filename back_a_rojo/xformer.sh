@@ -19,7 +19,7 @@ CONFIG_FILE_NAME=${1}
 #-----------------------------------------------------------------------
 TGT_SCRIPT_NAME="./"$(grep "TGT_SCRIPT_NAME=" ./${CONFIG_FILE_NAME}| sed -r 's/TGT_SCRIPT_NAME=\"(.*)\"/\1/' )
 
-echo ${TGT_SCRIPT_NAME}
+echo "Target script name: " ${TGT_SCRIPT_NAME}
 
 #-----------------------------------------------------------------------
 # Crea script especifico a partir del generico, insertando el config
