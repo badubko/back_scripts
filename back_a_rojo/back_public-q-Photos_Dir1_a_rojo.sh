@@ -110,16 +110,16 @@ if [ ! -f "${ORIGIN_MARK_FILE}" ]
 then
   echo -e "$0: No esta montado el directorio origen ${ORIGIN_MARK_FILE}\n" >> "${FILE_NAME_REP_REDUC_DIA}"
   exit
-else
-  echo "Dir origen OK"  
+#else
+  #echo "Dir origen OK"  
 fi
 
 if [ ! -f "${DEST_MARK_FILE}" ]
 then
   echo -e "$0: No esta montado el directorio destino ${DEST_MARK_FILE}\n" >> "${FILE_NAME_REP_REDUC_DIA}"
   exit
-else
-  echo "Dir destino OK"
+#else
+  #echo "Dir destino OK"
 fi
 }
 #-----------------------------------------------------------------------
@@ -139,8 +139,8 @@ if [ ! -f "${EXCLUDE_FILE}" ]
 then
   echo -e "$0: No existe el exclude file: ${EXCLUDE_FILE}\n" >> "${FILE_NAME_REP_REDUC_DIA}"
   exit
-else
-  echo "Exclude file OK"
+#else
+  #echo "Exclude file OK"
 fi
 
 }
