@@ -14,7 +14,7 @@
 #						 directorio desde donde se ejecuta el script
 # Version 3.0 2022.07.03 Modificada para ser backup de Photos a rojo
 # Version 3.2 2022.07.08 Modificado para que se inserte el contenido del config 
-#						 despues del INS_MARKER que es "INSERT_CONFIG_HERE"
+#						 despues del INS_MARKER 
 #						 Se cambia la definicion de variables *_GEN por *_CFG
 #						 
 #-----------------------------------------------------------------------
@@ -27,7 +27,7 @@ verificar_logs ()
 # y no en "produccion" Donde van los mensajes del cron...???
 #-----------------------------------------------------------------------
 # Directorios logs
-DIR_BASE="DIR_BASE_CFG"
+DIR_BASE="${DIR_BASE_CFG}"
 
 # Verificar existencia de directorio base de logs
 # Esto deberia escribir el mens de error en otro directorio...
@@ -38,7 +38,7 @@ then
 fi
 
 # En el directorio DIR_REDUC se van escribiendo todos los logs reducidos
-DIR_REDUC=${DIR_BASE}"DIR_REDUC_CFG"
+DIR_REDUC=${DIR_BASE}"${DIR_REDUC_CFG}"
 
 # Verificar existencia de directorio de logs reducidos
 # Esto deberia escribir el mens de error en otro directorio...
@@ -50,7 +50,7 @@ fi
 
 # En el directorio DIR_DETALL se van creando subdirs por dia y se va escribiendo los logs detallados
 # correspondientes a cada dia
-DIR_DETALL=${DIR_BASE}"DIR_DETALL_CFG"
+DIR_DETALL=${DIR_BASE}"${DIR_DETALL_CFG}"
 SUB_DIR_DETALL_DATE="${DIR_DETALL}/$(date  +%Y-%m-%d)"
 
 # Verificar existencia de directorio de logs de detalle
@@ -81,25 +81,25 @@ verificar_origen_y_destino ()
 # ORIGIN_DIR_NAME="/media/badubko/badubko-q/Back_F/BAS/DOCS/PS_Adv"
 
 #El siguiente es el directorio origen que debemos asegurarnos que este montado...
-MOUNTED_ORIGIN_DIR_NAME="MOUNTED_ORIGIN_DIR_NAME_CFG"
+MOUNTED_ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME_CFG}"
 
 # y debe tener la marca que permita controlar eso
 ORIGIN_MARK_FILE="${MOUNTED_ORIGIN_DIR_NAME}/.ORIGIN_MARK"
 
 # El siguiente es el directorio que vamos a respladar. Reside dentro del anterior
-ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}ORIGIN_DIR_NAME_CFG"
+ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}${ORIGIN_DIR_NAME_CFG}"
 #-----------------------------------------------------------------------
 # DESTINO 
 #-----------------------------------------------------------------------
 #                 Destino SIN /                   v
 #El siguiente es el directorio destino que debemos asegurarnos que este montado...
-MOUNTED_DEST_DIR_NAME="MOUNTED_DEST_DIR_NAME_CFG"
+MOUNTED_DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME_CFG}"
 
 # y debe tener la marca que permita controlar eso
 DEST_MARK_FILE="${MOUNTED_DEST_DIR_NAME}/.DEST_MARK"
 
 # El siguiente es el directorio al cual vamos a copiar. Reside dentro del anterior
-DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME}DEST_DIR_NAME_CFG"
+DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME}${DEST_DIR_NAME_CFG}"
 
 #-----------------------------------------------------------------------
 # Verificar si los directorios origen y destino estan montados
@@ -110,16 +110,16 @@ if [ ! -f "${ORIGIN_MARK_FILE}" ]
 then
   echo -e "$0: No esta montado el directorio origen ${ORIGIN_MARK_FILE}\n" >> "${FILE_NAME_REP_REDUC_DIA}"
   exit
-else
-  echo "Dir origen OK"  
+#else
+  #echo "Dir origen OK"  
 fi
 
 if [ ! -f "${DEST_MARK_FILE}" ]
 then
   echo -e "$0: No esta montado el directorio destino ${DEST_MARK_FILE}\n" >> "${FILE_NAME_REP_REDUC_DIA}"
   exit
-else
-  echo "Dir destino OK"
+#else
+  #echo "Dir destino OK"
 fi
 }
 #-----------------------------------------------------------------------
@@ -129,7 +129,7 @@ verificar_exclude_file()
 # No cambiar el nombre de esta variable, ya que el deploy la busca para
 # obtener el nombre del archivo exclude
 
-EXCLUDE_FILE_NAME="EXCLUDE_FILE_NAME_CFG"
+EXCLUDE_FILE_NAME="${EXCLUDE_FILE_NAME_CFG}"
 
 EXCLUDE_FILE="$(dirname ${0})/${EXCLUDE_FILE_NAME}"
 
@@ -139,8 +139,8 @@ if [ ! -f "${EXCLUDE_FILE}" ]
 then
   echo -e "$0: No existe el exclude file: ${EXCLUDE_FILE}\n" >> "${FILE_NAME_REP_REDUC_DIA}"
   exit
-else
-  echo "Exclude file OK"
+#else
+  #echo "Exclude file OK"
 fi
 
 }
@@ -150,7 +150,7 @@ fi
 #-----------------------------------------------------------------------
 
 # Inicializar variables varias
-VERSION="3.0"
+VERSION="3.2"
 
 DRY="-n"
 REAL=""
@@ -158,6 +158,12 @@ REAL=""
 PROGRESS_YES="--progress"
 PROGRESS_NO=""
 PROGRESS=${PROGRESS_NO}
+#-----------------------------------------------------------------------
+# El xformer insertara las variables desde el config file debajo del marker
+# Este es el insert marker:
+#-----------------------------------------------------------------------
+# INSERT_CONFIG_HERE
+
 #-----------------------------------------------------------------------
 
 if [ $# -eq 0 ]

@@ -13,6 +13,10 @@
 # Version 2.8 2022.06.25 Determina la ubicacion del exclude file a partir del
 #						 directorio desde donde se ejecuta el script
 # Version 3.0 2022.07.03 Modificada para ser backup de Photos a rojo
+# Version 3.2 2022.07.08 Modificado para que se inserte el contenido del config 
+#						 despues del INS_MARKER 
+#						 Se cambia la definicion de variables *_GEN por *_CFG
+#						 
 #-----------------------------------------------------------------------
 verificar_logs ()
 #-----------------------------------------------------------------------
@@ -23,7 +27,7 @@ verificar_logs ()
 # y no en "produccion" Donde van los mensajes del cron...???
 #-----------------------------------------------------------------------
 # Directorios logs
-DIR_BASE="/var/log/back_a_rojo/"
+DIR_BASE="${DIR_BASE_CFG}"
 
 # Verificar existencia de directorio base de logs
 # Esto deberia escribir el mens de error en otro directorio...
@@ -34,7 +38,7 @@ then
 fi
 
 # En el directorio DIR_REDUC se van escribiendo todos los logs reducidos
-DIR_REDUC=${DIR_BASE}"back_a_rojo_reduc"
+DIR_REDUC=${DIR_BASE}"${DIR_REDUC_CFG}"
 
 # Verificar existencia de directorio de logs reducidos
 # Esto deberia escribir el mens de error en otro directorio...
@@ -46,7 +50,7 @@ fi
 
 # En el directorio DIR_DETALL se van creando subdirs por dia y se va escribiendo los logs detallados
 # correspondientes a cada dia
-DIR_DETALL=${DIR_BASE}"back_a_rojo_detalle"
+DIR_DETALL=${DIR_BASE}"${DIR_DETALL_CFG}"
 SUB_DIR_DETALL_DATE="${DIR_DETALL}/$(date  +%Y-%m-%d)"
 
 # Verificar existencia de directorio de logs de detalle
@@ -77,25 +81,25 @@ verificar_origen_y_destino ()
 # ORIGIN_DIR_NAME="/media/badubko/badubko-q/Back_F/BAS/DOCS/PS_Adv"
 
 #El siguiente es el directorio origen que debemos asegurarnos que este montado...
-MOUNTED_ORIGIN_DIR_NAME="/samba"
+MOUNTED_ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME_CFG}"
 
 # y debe tener la marca que permita controlar eso
 ORIGIN_MARK_FILE="${MOUNTED_ORIGIN_DIR_NAME}/.ORIGIN_MARK"
 
 # El siguiente es el directorio que vamos a respladar. Reside dentro del anterior
-ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}/public-q/Photos/"
+ORIGIN_DIR_NAME="${MOUNTED_ORIGIN_DIR_NAME}${ORIGIN_DIR_NAME_CFG}"
 #-----------------------------------------------------------------------
 # DESTINO 
 #-----------------------------------------------------------------------
 #                 Destino SIN /                   v
 #El siguiente es el directorio destino que debemos asegurarnos que este montado...
-MOUNTED_DEST_DIR_NAME="/media/badubko/Seagate_Backup_Plus_Drive"
+MOUNTED_DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME_CFG}"
 
 # y debe tener la marca que permita controlar eso
 DEST_MARK_FILE="${MOUNTED_DEST_DIR_NAME}/.DEST_MARK"
 
 # El siguiente es el directorio al cual vamos a copiar. Reside dentro del anterior
-DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME}/Public/Photos"
+DEST_DIR_NAME="${MOUNTED_DEST_DIR_NAME}${DEST_DIR_NAME_CFG}"
 
 #-----------------------------------------------------------------------
 # Verificar si los directorios origen y destino estan montados
@@ -125,7 +129,7 @@ verificar_exclude_file()
 # No cambiar el nombre de esta variable, ya que el deploy la busca para
 # obtener el nombre del archivo exclude
 
-EXCLUDE_FILE_NAME="exclude_patterns_public-q_Photos.txt"
+EXCLUDE_FILE_NAME="${EXCLUDE_FILE_NAME_CFG}"
 
 EXCLUDE_FILE="$(dirname ${0})/${EXCLUDE_FILE_NAME}"
 
@@ -146,7 +150,7 @@ fi
 #-----------------------------------------------------------------------
 
 # Inicializar variables varias
-VERSION="3.0"
+VERSION="3.2"
 
 DRY="-n"
 REAL=""
@@ -154,6 +158,27 @@ REAL=""
 PROGRESS_YES="--progress"
 PROGRESS_NO=""
 PROGRESS=${PROGRESS_NO}
+#-----------------------------------------------------------------------
+# El xformer insertara las variables desde el config file debajo del marker
+# Este es el insert marker:
+#-----------------------------------------------------------------------
+# INSERT_CONFIG_HERE
+# Configurarion file for back_a_rojo
+
+TGT_SCRIPT_NAME="back_public-q-Photos_Dir1_a_rojo.sh"
+
+DIR_BASE_CFG="/var/log/back_a_rojo/"
+DIR_REDUC_CFG="back_a_rojo_reduc"
+DIR_DETALL_CFG="back_a_rojo_detalle"
+
+MOUNTED_ORIGIN_DIR_NAME_CFG="/samba"
+ORIGIN_DIR_NAME_CFG="/public-q/Photos/"
+
+MOUNTED_DEST_DIR_NAME_CFG="/media/badubko/Seagate_Backup_Plus_Drive"
+DEST_DIR_NAME_CFG="/Public/Photos"
+
+EXCLUDE_FILE_NAME_CFG="exclude_patterns_public-q_Photos.txt"
+
 #-----------------------------------------------------------------------
 
 if [ $# -eq 0 ]
