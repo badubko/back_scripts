@@ -52,7 +52,7 @@ EXCLUDE_FILE_NAME=${EXCLUDE_FILE_NAME_CFG}
 # Solucion transitoria para evitar que se pisen los archivos en caso de que no
 # exista el deploy destination dir
 
-echo cp --update --verbose ${TGT_SCRIPT_NAME}   ${DEPLOY_DESTINATION_DIR}
-echo cp --update --verbose ${EXCLUDE_FILE_NAME} ${DEPLOY_DESTINATION_DIR}
+cp --update --verbose ${TGT_SCRIPT_NAME}   ${DEPLOY_DESTINATION_DIR}
+cp --update --verbose ${EXCLUDE_FILE_NAME} ${DEPLOY_DESTINATION_DIR}
 
-echo chmod 755 ${DEPLOY_DESTINATION_DIR}$(basename ${TGT_SCRIPT_NAME})
+chmod 755 ${DEPLOY_DESTINATION_DIR}$(basename ${TGT_SCRIPT_NAME})
