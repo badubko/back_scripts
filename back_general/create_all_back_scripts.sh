@@ -5,5 +5,5 @@
 
 for CONFIG_FILE in *.cfg
 do
-   bash ./xformer ${CONFIG_FILE}
+   bash ./xformer.sh ${CONFIG_FILE}
 done   
