@@ -17,7 +17,9 @@
 #						 despues del INS_MARKER 
 #						 Se cambia la definicion de variables *_GEN por *_CFG
 # Version 4.0 2022.07.09 Version para generar back samba a partir del script generico
-# Version 5.0 2022.07.10 Version para generar y deployar cualquier script a partir del script generico						 
+# Version 5.0 2022.07.10 Version para generar y deployar cualquier script a partir del script generico
+# Version 5.2 2022.07.13 Solo para reflejar que es la version coincidente con los demas modulos
+#			  			 						 
 #-----------------------------------------------------------------------
 verificar_logs ()
 #-----------------------------------------------------------------------
@@ -186,7 +188,7 @@ fi
 #-----------------------------------------------------------------------
 
 # Inicializar variables varias
-VERSION="5.0"
+VERSION="5.2"
 
 DRY="-n"
 REAL=""
@@ -225,17 +227,21 @@ DEPLOY_DESTINATION_DIR_CFG="/opt/back_a_rojo/"
 if [ $# -eq 0 ]
 then 
  RUN_TYPE="${DRY}"
+ RUN_TYPE_2_SHOW="-DRY"
 else
  case "${1,,}" in
  -dry | -d | --dry | -n)
 			RUN_TYPE="${DRY}"
+			 RUN_TYPE_2_SHOW="-DRY"
   ;;
  -real | -r | --real )
 			RUN_TYPE="${REAL}"
+			 RUN_TYPE_2_SHOW="-REAL"
   ;;
   *)
   # Es otro string. que sea DRY
 			RUN_TYPE="${DRY}"
+			 RUN_TYPE_2_SHOW="-DRY"
  esac	
 
 fi
@@ -268,8 +274,8 @@ FILE_NAME_REP_DETALL="${SUB_DIR_DETALL_DATE}/""$(date  +%Y-%m-%d_%H%M)""${NAME_R
 
 # Inicializar archivo reducido
 
-printf "\n          Comienzo: %s  Generado por: %s %s Version: %s\n" 	"${START_TIME}"  ${0} "${RUN_TYPE}" ${VERSION}  >> "${FILE_NAME_REP_REDUC_DIA}"
-
+printf "\n          Comienzo: %s  \n" "${START_TIME}"  >> "${FILE_NAME_REP_REDUC_DIA}"
+printf "          Generado por: %s %s Version: %s\n" 	 ${0} "${RUN_TYPE_2_SHOW}" ${VERSION}  >> "${FILE_NAME_REP_REDUC_DIA}"
 verificar_origen_y_destino 
 
 verificar_exclude_file
@@ -281,7 +287,7 @@ printf "          Archivo detalle: %s\n" 	"${FILE_NAME_REP_DETALL}" 				 >>${FIL
 
 # Inicializar archivo de detalle
 printf "          Comienzo Detalle: %s \n"  "${START_TIME}"   >${FILE_NAME_REP_DETALL}
-printf "          Generado por:  %s %s Version: %s \n" 	 ${0} "${RUN_TYPE}" ${VERSION} >>${FILE_NAME_REP_DETALL}
+printf "          Generado por:  %s %s Version: %s \n" 	 ${0} "${RUN_TYPE_2_SHOW}" ${VERSION} >>${FILE_NAME_REP_DETALL}
 printf "          File reducido: %s \n" 	"${FILE_NAME_REP_REDUC_DIA}" 							>>${FILE_NAME_REP_DETALL}
 
 # Ejecutar respaldo
