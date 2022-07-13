@@ -17,7 +17,9 @@
 #						 despues del INS_MARKER 
 #						 Se cambia la definicion de variables *_GEN por *_CFG
 # Version 4.0 2022.07.09 Version para generar back samba a partir del script generico
-# Version 5.0 2022.07.10 Version para generar y deployar cualquier script a partir del script generico						 
+# Version 5.0 2022.07.10 Version para generar y deployar cualquier script a partir del script generico
+# Version 5.2 2022.07.13 Solo para reflejar que es la version coincidente con los demas modulos
+#			  			 						 
 #-----------------------------------------------------------------------
 verificar_logs ()
 #-----------------------------------------------------------------------
