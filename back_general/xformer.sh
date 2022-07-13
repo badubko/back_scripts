@@ -11,7 +11,7 @@ CONFIG_FILE_NAME=${1}
 if [ $# -eq 0 ]
 then 
  echo -e "No se proporciono el nombre del config file..."
- echo -e "Usage: $0 <config_file_name.cfg \n"
+ echo -e "Usage: $0 <config_file_name.cfg> \n"
  exit
 else
  if [ "${CONFIG_FILE_NAME##*.}" != "cfg" ]
