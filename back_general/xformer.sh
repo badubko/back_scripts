@@ -3,29 +3,19 @@
 # 
 # Version 5.0 Genera a partir del script generico, un script de backup especifico, 
 #             tomando los parametros del config file pasado como argumento.
-#
-VERSION=5.0
+# Version 5.2 Separada la funcion check_config_file.
+
+# Import function
+
+. ./check_config_file.sh
+
+VERSION=5.2
 
 CONFIG_FILE_NAME=${1}
+N_ARGS=${#}
 
-if [ $# -eq 0 ]
-then 
- echo -e "No se proporciono el nombre del config file..."
- echo -e "Usage: $0 <config_file_name.cfg> \n"
- exit
-else
- if [ "${CONFIG_FILE_NAME##*.}" != "cfg" ]
- then
-     echo -e "El archivo no es del tipo .cfg (config file)...${CONFIG_FILE_NAME} \n"
-     exit
- else
-	 if [ ! -f ${CONFIG_FILE_NAME} ]
-	 then
-	     echo -e "No existe el config file...${CONFIG_FILE_NAME} \n"
-	     exit
-	 fi
- fi
-fi
+check_config_file 
+
 
 # echo ${CONFIG_FILE_NAME} ; exit
 

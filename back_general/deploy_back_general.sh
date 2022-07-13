@@ -8,29 +8,18 @@
 # Version 5.0 Now this is a general purpouse script: it will deploy the back-up
 #			  scipt itself and the exclude file getting the
 # 			  information from the config file passed as an argument
+# Version 5.2
 
-VERSION=5.0
+# Import function
+
+. ./check_config_file.sh
+
+VERSION=5.2
 
 CONFIG_FILE_NAME=${1}
+N_ARGS=${#}
 
-if [ $# -eq 0 ]
-then 
- echo -e "No se proporciono el nombre del config file..."
- echo -e "Usage: $0 <config_file_name.cfg \n"
- exit
-else
- if [ "${CONFIG_FILE_NAME##*.}" != "cfg" ]
- then
-     echo -e "El archivo no es del tipo .cfg (config file)...${CONFIG_FILE_NAME} \n"
-     exit
- else
-	 if [ ! -f ${CONFIG_FILE_NAME} ]
-	 then
-	     echo -e "No existe el config file...${CONFIG_FILE_NAME} \n"
-	     exit
-	 fi
- fi
-fi
+check_config_file 
 
 # Should be run as root or sudo
 # Check to be added later...
