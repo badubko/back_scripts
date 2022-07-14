@@ -10,6 +10,12 @@
 # 			  information from the config file passed as an argument
 # Version 5.2
 
+if [ ${EUID} != 0  ]
+then
+  echo "Should be run as root..."
+  exit
+fi
+  
 # Import function
 
 . ./check_config_file.sh
