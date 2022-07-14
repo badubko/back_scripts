@@ -196,6 +196,29 @@ REAL=""
 PROGRESS_YES="--progress"
 PROGRESS_NO=""
 PROGRESS=${PROGRESS_NO}
+
+if [ $# -eq 0 ]
+then 
+ RUN_TYPE="${DRY}"
+ RUN_TYPE_2_SHOW="-DRY"
+else
+ case "${1,,}" in
+ -dry | -d | --dry | -n)
+			RUN_TYPE="${DRY}"
+			 RUN_TYPE_2_SHOW="-DRY"
+  ;;
+ -real | -r | --real )
+			RUN_TYPE="${REAL}"
+			 RUN_TYPE_2_SHOW="-REAL"
+  ;;
+  *)
+  # Es otro string. que sea DRY
+			RUN_TYPE="${DRY}"
+			 RUN_TYPE_2_SHOW="-DRY"
+ esac	
+
+fi
+
 #-----------------------------------------------------------------------
 # El xformer insertara las variables desde el config file debajo del marker
 # Este es el insert marker:
@@ -220,31 +243,13 @@ EXCLUDE_FILE_NAME_CFG="exclude_patterns_samba.txt"
 NAME_REP_REDUC_CFG="_Rep_reduc_samba.log"
 NAME_REP_DETALL_CFG="_Rep_detall_samba.log"
 
+BACK_OPTS_1_CFG=" -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete "
+BACK_OPTS_2_CFG=" --stats -i -s "
+
 DEPLOY_DESTINATION_DIR_CFG="/opt/back_samba/"
 
+
 #-----------------------------------------------------------------------
-
-if [ $# -eq 0 ]
-then 
- RUN_TYPE="${DRY}"
- RUN_TYPE_2_SHOW="-DRY"
-else
- case "${1,,}" in
- -dry | -d | --dry | -n)
-			RUN_TYPE="${DRY}"
-			 RUN_TYPE_2_SHOW="-DRY"
-  ;;
- -real | -r | --real )
-			RUN_TYPE="${REAL}"
-			 RUN_TYPE_2_SHOW="-REAL"
-  ;;
-  *)
-  # Es otro string. que sea DRY
-			RUN_TYPE="${DRY}"
-			 RUN_TYPE_2_SHOW="-DRY"
- esac	
-
-fi
 
 CURR_YEAR="$(date  +%Y)"
 CURR_YEAR_MONTH="$(date  +%Y-%m)"
@@ -295,7 +300,7 @@ printf "          Origen:  %s \n "  ${ORIGIN_DIR_NAME} >>${FILE_NAME_REP_DETALL}
 printf "         Destino: %s \n\n" ${DEST_DIR_NAME}   >>${FILE_NAME_REP_DETALL}
 
 #rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete --exclude 'timeshift' --exclude '.Trash-1000' --exclude 'lost+found' -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
-rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete --exclude-from="${EXCLUDE_FILE}" --stats -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
+rsync ${BACK_OPTS_1_CFG} --exclude-from="${EXCLUDE_FILE}" ${BACK_OPTS_2_CFG} ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
 
 # Escribir log de finalizacion indicando exito o fracaso
 

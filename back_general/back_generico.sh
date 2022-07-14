@@ -196,13 +196,6 @@ REAL=""
 PROGRESS_YES="--progress"
 PROGRESS_NO=""
 PROGRESS=${PROGRESS_NO}
-#-----------------------------------------------------------------------
-# El xformer insertara las variables desde el config file debajo del marker
-# Este es el insert marker:
-#-----------------------------------------------------------------------
-# INSERT_CONFIG_HERE
-
-#-----------------------------------------------------------------------
 
 if [ $# -eq 0 ]
 then 
@@ -225,6 +218,14 @@ else
  esac	
 
 fi
+
+#-----------------------------------------------------------------------
+# El xformer insertara las variables desde el config file debajo del marker
+# Este es el insert marker:
+#-----------------------------------------------------------------------
+# INSERT_CONFIG_HERE
+
+#-----------------------------------------------------------------------
 
 CURR_YEAR="$(date  +%Y)"
 CURR_YEAR_MONTH="$(date  +%Y-%m)"
@@ -275,7 +276,7 @@ printf "          Origen:  %s \n "  ${ORIGIN_DIR_NAME} >>${FILE_NAME_REP_DETALL}
 printf "         Destino: %s \n\n" ${DEST_DIR_NAME}   >>${FILE_NAME_REP_DETALL}
 
 #rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete --exclude 'timeshift' --exclude '.Trash-1000' --exclude 'lost+found' -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
-rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete --exclude-from="${EXCLUDE_FILE}" --stats -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
+rsync ${BACK_OPTS_1_CFG} --exclude-from="${EXCLUDE_FILE}" ${BACK_OPTS_2_CFG} ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
 
 # Escribir log de finalizacion indicando exito o fracaso
 
