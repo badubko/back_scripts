@@ -203,18 +203,18 @@ then
  RUN_TYPE_2_SHOW="-DRY"
 else
  case "${1,,}" in
- -dry | -d | --dry | -n)
+ -dry | -d | --dry | -n | -DRY | --DRY )
 			RUN_TYPE="${DRY}"
 			 RUN_TYPE_2_SHOW="-DRY"
   ;;
- -real | -r | --real )
+ -real | -r | --real | -REAL | --REAL )
 			RUN_TYPE="${REAL}"
 			 RUN_TYPE_2_SHOW="-REAL"
   ;;
   *)
   # Es otro string. que sea DRY
 			RUN_TYPE="${DRY}"
-			 RUN_TYPE_2_SHOW="-DRY"
+			RUN_TYPE_2_SHOW="-DRY"
  esac	
 
 fi
