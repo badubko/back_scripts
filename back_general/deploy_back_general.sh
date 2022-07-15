@@ -27,10 +27,6 @@ N_ARGS=${#}
 
 check_config_file 
 
-# Should be run as root or sudo
-# Check to be added later...
-
-
 # Gets exclude file name from back_samba.sh. It's assumed that it resides in the same directory
 # as the main script.
 
