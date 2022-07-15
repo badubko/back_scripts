@@ -13,6 +13,7 @@ VERSION=5.2
 
 CONFIG_FILE_NAME=${1}
 N_ARGS=${#}
+GENERIC_SCRIPT_NAME="./back_generico.sh"
 
 check_config_file 
 
@@ -29,11 +30,16 @@ check_config_file
 
 . ./${CONFIG_FILE_NAME}
 
-echo "Target script name: " ${TGT_SCRIPT_NAME}
-
 #-----------------------------------------------------------------------
 # Crea script especifico a partir del generico, insertando el config
 #-----------------------------------------------------------------------
 
 INS_MARKER="INSERT_CONFIG_HERE"
-sed "/${INS_MARKER}/r  ${CONFIG_FILE_NAME}" ./back_generico.sh > ${TGT_SCRIPT_NAME}
+sed "/${INS_MARKER}/r  ${CONFIG_FILE_NAME}" ${GENERIC_SCRIPT_NAME} > ${TGT_SCRIPT_NAME}
+
+if [ $? = 0 ]
+then
+     echo "Created Target script name: " ${TGT_SCRIPT_NAME}
+else
+     echo "Failed to create: " ${TGT_SCRIPT_NAME}
+fi      
