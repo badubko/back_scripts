@@ -19,6 +19,7 @@
 # Version 4.0 2022.07.09 Version para generar back samba a partir del script generico
 # Version 5.0 2022.07.10 Version para generar y deployar cualquier script a partir del script generico
 # Version 5.2 2022.07.13 Solo para reflejar que es la version coincidente con los demas modulos
+# Version 5.4 2022.07.18 Agregado de include file
 #			  			 						 
 #-----------------------------------------------------------------------
 verificar_logs ()
@@ -161,6 +162,30 @@ then
 fi
 }
 #-----------------------------------------------------------------------
+verificar_include_file()
+#-----------------------------------------------------------------------
+{
+# No cambiar el nombre de esta variable, ya que el deploy la busca para
+# obtener el nombre del archivo include
+
+INCLUDE_FILE_NAME="${INCLUDE_FILE_NAME_CFG}"
+
+INCLUDE_FILE="$(dirname ${0})/${INCLUDE_FILE_NAME}"
+
+# echo ${INCLUDE_FILE}
+
+if [ ! -f "${INCLUDE_FILE}" ]
+then
+  echo -e "$0: No existe el include file: ${INCLUDE_FILE}\n" >> "${FILE_NAME_REP_REDUC_DIA}"
+  exit
+#else
+  #echo "Include file OK"
+fi
+
+}
+
+
+#-----------------------------------------------------------------------
 verificar_exclude_file()
 #-----------------------------------------------------------------------
 {
@@ -188,7 +213,7 @@ fi
 #-----------------------------------------------------------------------
 
 # Inicializar variables varias
-VERSION="5.2"
+VERSION="5.4"
 
 DRY="-n"
 REAL=""
@@ -238,6 +263,7 @@ ORIGIN_DIR_NAME_CFG="/"
 MOUNTED_DEST_DIR_NAME_CFG="/samba_0"
 DEST_DIR_NAME_CFG=""
 
+INCLUDE_FILE_NAME_CFG="include_patterns_samba.txt"
 EXCLUDE_FILE_NAME_CFG="exclude_patterns_samba.txt"
 
 NAME_REP_REDUC_CFG="_Rep_reduc_samba.log"
@@ -282,10 +308,12 @@ FILE_NAME_REP_DETALL="${SUB_DIR_DETALL_DATE}/""$(date  +%Y-%m-%d_%H%M)""${NAME_R
 
 printf "\n          Comienzo: %s  \n" "${START_TIME}"  >> "${FILE_NAME_REP_REDUC_DIA}"
 printf "          Generado por: %s %s Version: %s\n" 	 ${0} "${RUN_TYPE_2_SHOW}" ${VERSION}  >> "${FILE_NAME_REP_REDUC_DIA}"
+
 verificar_origen_y_destino 
 
-verificar_exclude_file
+verificar_include_file
 
+verificar_exclude_file
 
 # Aca estamos en condiciones de indicar que habra archivo de detalle
 
@@ -301,7 +329,7 @@ printf "          Origen:  %s \n "  ${ORIGIN_DIR_NAME} >>${FILE_NAME_REP_DETALL}
 printf "         Destino: %s \n\n" ${DEST_DIR_NAME}   >>${FILE_NAME_REP_DETALL}
 
 #rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete --exclude 'timeshift' --exclude '.Trash-1000' --exclude 'lost+found' -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
-rsync ${BACK_OPTS_1_CFG} --exclude-from="${EXCLUDE_FILE}" ${BACK_OPTS_2_CFG} ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
+rsync ${BACK_OPTS_1_CFG} --include-from="${INCLUDE_FILE}" --exclude-from="${EXCLUDE_FILE}" ${BACK_OPTS_2_CFG} ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
 
 # Escribir log de finalizacion indicando exito o fracaso
 

@@ -249,6 +249,32 @@ fi
 # Este es el insert marker:
 #-----------------------------------------------------------------------
 # INSERT_CONFIG_HERE
+# Configurarion file for back /home/badubko
+
+TGT_SCRIPT_NAME="back_home_badubko.sh"
+
+DIR_BASE_CFG="/var/log/back_samba/"
+DIR_REDUC_CFG="back_samba_reduc"
+DIR_DETALL_CFG="back_samba_detalle"
+
+MOUNTED_ORIGIN_DIR_NAME_CFG="/home/badubko"
+ORIGIN_DIR_NAME_CFG="/"
+
+MOUNTED_DEST_DIR_NAME_CFG="/samba"
+DEST_DIR_NAME_CFG="/public-q/back_home_badubko"
+
+INCLUDE_FILE_NAME_CFG="include_patterns_home_badubko.txt"
+EXCLUDE_FILE_NAME_CFG="exclude_patterns_home_badubko.txt"
+
+NAME_REP_REDUC_CFG="_Rep_reduc_samba.log"
+NAME_REP_DETALL_CFG="_Rep_detall_home_badubko.log"
+
+BACK_OPTS_1_CFG=" -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete "
+BACK_OPTS_2_CFG=" --stats -i -s "
+
+DEPLOY_DESTINATION_DIR_CFG="/opt/back_samba/"
+
+GENERIC_SCRIPT_NAME_CFG="./back_generico.sh"
 
 #-----------------------------------------------------------------------
 
@@ -303,7 +329,7 @@ printf "          Origen:  %s \n "  ${ORIGIN_DIR_NAME} >>${FILE_NAME_REP_DETALL}
 printf "         Destino: %s \n\n" ${DEST_DIR_NAME}   >>${FILE_NAME_REP_DETALL}
 
 #rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete --exclude 'timeshift' --exclude '.Trash-1000' --exclude 'lost+found' -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
-rsync ${BACK_OPTS_1_CFG} --include-from="${INCLUDE_FILE}" --exclude-from="${EXCLUDE_FILE}" ${BACK_OPTS_2_CFG} ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
+rsync ${BACK_OPTS_1_CFG} --include-from="${INCLUDE_FILE}" --exclude-from="${EXCLUDE_FILE}" ${BACK_OPTS_2_CFG} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
 
 # Escribir log de finalizacion indicando exito o fracaso
 
