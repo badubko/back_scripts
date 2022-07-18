@@ -257,10 +257,10 @@ FILE_NAME_REP_DETALL="${SUB_DIR_DETALL_DATE}/""$(date  +%Y-%m-%d_%H%M)""${NAME_R
 
 printf "\n          Comienzo: %s  \n" "${START_TIME}"  >> "${FILE_NAME_REP_REDUC_DIA}"
 printf "          Generado por: %s %s Version: %s\n" 	 ${0} "${RUN_TYPE_2_SHOW}" ${VERSION}  >> "${FILE_NAME_REP_REDUC_DIA}"
+
 verificar_origen_y_destino 
 
 verificar_exclude_file
-
 
 # Aca estamos en condiciones de indicar que habra archivo de detalle
 

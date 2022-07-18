@@ -248,6 +248,7 @@ BACK_OPTS_2_CFG=" --stats -i -s "
 
 DEPLOY_DESTINATION_DIR_CFG="/opt/back_samba/"
 
+GENERIC_SCRIPT_NAME_CFG="./back_generico.sh"
 
 #-----------------------------------------------------------------------
 
