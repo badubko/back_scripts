@@ -13,10 +13,8 @@ VERSION=5.2
 
 CONFIG_FILE_NAME=${1}
 N_ARGS=${#}
-GENERIC_SCRIPT_NAME="./back_generico.sh"
 
 check_config_file 
-
 
 # echo ${CONFIG_FILE_NAME} ; exit
 
@@ -33,6 +31,7 @@ check_config_file
 #-----------------------------------------------------------------------
 # Crea script especifico a partir del generico, insertando el config
 #-----------------------------------------------------------------------
+GENERIC_SCRIPT_NAME=${GENERIC_SCRIPT_NAME_CFG}
 
 INS_MARKER="INSERT_CONFIG_HERE"
 sed "/${INS_MARKER}/r  ${CONFIG_FILE_NAME}" ${GENERIC_SCRIPT_NAME} > ${TGT_SCRIPT_NAME}
