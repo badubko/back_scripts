@@ -1,4 +1,4 @@
 # include_patterns_home_badubko.txt
 
-/home/badubko/Documents/
-/home/badubko/Downloads/
+/home/badubko/Documents
+# /home/badubko/Downloads/

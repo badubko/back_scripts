@@ -258,7 +258,7 @@ DIR_REDUC_CFG="back_samba_reduc"
 DIR_DETALL_CFG="back_samba_detalle"
 
 MOUNTED_ORIGIN_DIR_NAME_CFG="/home/badubko"
-ORIGIN_DIR_NAME_CFG="/"
+ORIGIN_DIR_NAME_CFG="/Documents"
 
 MOUNTED_DEST_DIR_NAME_CFG="/samba"
 DEST_DIR_NAME_CFG="/public-q/back_home_badubko"
@@ -329,7 +329,9 @@ printf "          Origen:  %s \n "  ${ORIGIN_DIR_NAME} >>${FILE_NAME_REP_DETALL}
 printf "         Destino: %s \n\n" ${DEST_DIR_NAME}   >>${FILE_NAME_REP_DETALL}
 
 #rsync -r ${RUN_TYPE} -t -p -o -g -v ${PROGRESS} --delete --exclude 'timeshift' --exclude '.Trash-1000' --exclude 'lost+found' -i -s ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
-rsync ${BACK_OPTS_1_CFG} --include-from="${INCLUDE_FILE}" --exclude-from="${EXCLUDE_FILE}" ${BACK_OPTS_2_CFG} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
+
+ORIGIN_DIR_NAME=""
+rsync ${BACK_OPTS_1_CFG} --include-from="${INCLUDE_FILE}" --exclude-from="${EXCLUDE_FILE}" ${BACK_OPTS_2_CFG} ${ORIGIN_DIR_NAME} ${DEST_DIR_NAME}  >>${FILE_NAME_REP_DETALL} 2>&1
 
 # Escribir log de finalizacion indicando exito o fracaso
 
